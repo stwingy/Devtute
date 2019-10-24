@@ -7,18 +7,29 @@ const collectIdsandDocs = doc => {
 export const PostsContext = React.createContext()
 function PostProvider({ children }) {
     const [posts, setPosts] = React.useState([])
-    console.log(posts)
+    const [sections, setSections] = React.useState([])
+
     React.useEffect(() => {
 
         const subscribeF = firestore.collection('posts').onSnapshot(snapshot => {
             const newPosts = snapshot.docs.map(collectIdsandDocs)
             setPosts(newPosts)
 
+
         })
 
         return () => { subscribeF() }
     }, [])
+    // const foods = posts.reduce((acc, cur) => {
+    //     if (!acc[cur.section]) {
+    //         acc[cur.section] = [];
+    //     }
+    //     acc[cur.section].push(cur);
+    //     return acc;
+    // }, {});
+    // setSections(foods)
 
+    // console.log(sections)
     return (
         <PostsContext.Provider value={posts}>
             {children}

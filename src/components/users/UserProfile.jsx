@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { auth, firestore, storage } from '../../firebase';
-import { puts } from 'util';
-
+import { Button } from '../../style/styles';
+import styled from 'styled-components';
+const StyledInput = styled.input`
+	border: 1px solid #000;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px;
+	width: 200px;
+	box-sizing: border-box;
+	background: ${(prop) => (prop.correct ? 'white' : 'red')};
+`;
 function UserProfile() {
 	const [ displayName, setDisplayName ] = useState('');
 	const [ imageInput, setImageInput ] = useState(null);
@@ -22,7 +31,7 @@ function UserProfile() {
 	};
 
 	const handleSubmit = (event) => {
-		event.preventDefault();
+		//event.preventDefault();
 
 		if (displayName) {
 			userRef().update({ displayName });
@@ -42,15 +51,17 @@ function UserProfile() {
 	return (
 		<section className="UserProfile">
 			<form onSubmit={handleSubmit} className="UpdateUser">
-				<input
+				<StyledInput
 					type="text"
 					name="displayName"
 					value={displayName}
 					placeholder="Display Name"
 					onChange={handleChange}
 				/>
-				<input type="file" ref={(ref) => setImageInput(ref)} />
-				<input className="update" type="submit" />
+				<StyledInput type="file" ref={(ref) => setImageInput(ref)} />
+				<Button className="update" type="submit" onClick={handleSubmit}>
+					Submit
+				</Button>
 			</form>
 		</section>
 	);

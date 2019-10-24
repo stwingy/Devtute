@@ -4,29 +4,33 @@ import { firestore } from '../../firebase'
 import { withRouter } from 'react-router-dom'
 import { useUser } from '../../providers/UserProvider'
 import moment from 'moment'
+import { Button, StyledInput } from '../../style/styles'
 const collectIdsandDocs = doc => {
   return { id: doc.id, ...doc.data() }
 }
 function Comments(props) {
   const [com, setCom] = React.useState({ content: "" })
   const user = useUser()
-  if (user) console.log(user.displayName)
+
   function makeComment(e) {
-    e.preventDefault()
-    props.onCreate(com, user, { createdAt: Date.now() })
+    // e.preventDefault()
+    if (com.content !== "") {
+      props.onCreate(com, user, { createdAt: Date.now() })
+    }
+
 
   }
   return (
     <div>{user && props.comments.map(c => <p>{c.content} by {c.user.displayName} at {moment(c.createdAt).calendar()}</p>)}
-      <form onSubmit={makeComment}>
-        <input type="text" value={com.content} onChange={e => setCom({ content: e.target.value })} />
-        <button type="submit">press</button>
-      </form>
+      {<form onSubmit={makeComment}>
+        <StyledInput type="text" value={com.content} onChange={e => setCom({ content: e.target.value })} />
+        <Button type="submit" onClick={makeComment}>press</Button>
+      </form>}
     </div>
   )
 }
 function PostPage(props) {
-  console.log(props)
+  console.log(props.match)
   const [post, setPost] = useState(null)
   const [comments, setComments] = useState([])
   console.log(comments)
@@ -58,10 +62,10 @@ function PostPage(props) {
       user,
     });
   };
-
+  console.log(postRef.postId)
   return (
     <div>
-      {post && <Post {...post} />}
+      {post && <Post {...post} match={props.match || null} />}
       <Comments
         comments={comments}
         postId={postId
