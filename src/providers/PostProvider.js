@@ -11,12 +11,13 @@ function PostProvider({ children }) {
 
     React.useEffect(() => {
 
-        const subscribeF = firestore.collection('posts').onSnapshot(snapshot => {
-            const newPosts = snapshot.docs.map(collectIdsandDocs)
-            setPosts(newPosts)
+        const subscribeF = firestore.collection('posts').orderBy("createdAt", "desc")
+            .limit(100).onSnapshot(snapshot => {
+                const newPosts = snapshot.docs.map(collectIdsandDocs)
+                setPosts(newPosts)
 
 
-        })
+            })
 
         return () => { subscribeF() }
     }, [])

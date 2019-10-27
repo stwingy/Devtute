@@ -6,8 +6,36 @@ import { firestore } from '../../firebase'
 import { Button, StyledInput } from '../../style/styles'
 import styled from 'styled-components'
 
+const Select = styled.select`
+display: block;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    max-width: 100%; 
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    border-radius: .5em;
+   
+    :hover{
+        border-color: #888;
+    }
+    :focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+   
+    color: #222; 
+    outline: none;
+`
+
 const ButtonF = styled(Button)`
 margin:.5em auto;`
+
 const Form = styled.form`
 display:flex;
 flex-direction:column;
@@ -16,14 +44,14 @@ margin-bottom:8rem;
 const Textarea = styled.textarea`
    margin: .5em auto;
     
-    width: 500px;
+    width: 80%;
     height: 100px;
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
-    border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+    border-color: 	 #ff9999;
     border-image: none;
     border-radius: 6px 6px 6px 6px;
     border-style: none solid solid none;
@@ -62,71 +90,83 @@ const Textarea = styled.textarea`
 //   }
 // `;
 const Input = styled(StyledInput)`
-width:200px;
-margin:0 auto;
+
+width:82%;
+margin:.5em auto;
+background-color:rgba(0, 0, 0, 0.1);
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    color: #555555;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.4em;
+    padding: 5px 8px;
+    border-color: #ff9999;
+    border-image: none;
+    border-radius: 3px;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+    transition:background-color .3s ease;
+    :focus{
+background-color:white;
+    }
 `
 function Posts() {
 
     const posts = usePosts()
     const user = useUser()
     const { uid, photoURL, email, displayName } = user || {}
-
+    const [sections, setSections] = React.useState()
+    const [sectLoading, setSectLoading] = React.useState(false)
     const [title, setTitle] = React.useState("")
     const [body, setBody] = React.useState("")
+    const [select, setSelect] = React.useState("All")
 
     function handleSubmit(e) {
-        //e.preventDefault()
-        addPosts({ title: title, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
+        e.preventDefault()
+        addPosts({ title: title, select: select, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
         setTitle("")
         setBody("")
+    }
+    function handleSelect(e) {
+        setSelect(e.target.value)
     }
     const addPosts = async post => {
         firestore.collection('posts').add(post)
     }
+    const filterPosts = (val) => {
+        const filt = posts.filter(p => p.select === val)
+        setSections(filt)
 
-
-
+    }
     return (
         <div>
-            <Form id="postForm" onSubmit={handleSubmit}>
-                <Input value={title} type="text" onChange={e => setTitle(e.target.value)} />
-                <Textarea value={body} type="text" onChange={e => setBody(e.target.value)} />
-                <ButtonF type="submit" onClick={handleSubmit} >PRESS</ButtonF>
-            </Form>
+            <Button onClick={() => filterPosts("Javascript")}>click</Button>
 
 
             {
 
                 (posts.map(p =>
-                    <Post key={p.id} id={p.id} title={p.title} body={p.body} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
+                    <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
                 ))
             }
-        </div>
+            <Form id="postForm" onSubmit={handleSubmit}>
+                <Input placeholder="Please Enter A Title" value={title} type="text" onChange={e => setTitle(e.target.value)} />
+                <Textarea placeholder="Please Enter Some More Information" value={body} type="text" onChange={e => setBody(e.target.value)} />
+                <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto' }}>
+
+                    <Select onChange={handleSelect}>
+                        <option value="All">All</option>
+                        <option value="React">React</option>
+                        <option value="Styled Components">Styled Components</option>
+                        <option value="CSS">CSS</option>
+                        <option value="Javascript">Javascript</option>
+                    </Select>
+                    <ButtonF type="submit" onClick={handleSubmit} >PRESS<button style={{ left: "0", width: "100%", height: '100%', position: "absolute", opacity: 0 }}></button></ButtonF>
+                </div>
+
+            </Form>
+        </div >
     )
 }
 
 export default Posts
-// QuerySnapshot properties
-// docs  array of DocumentSnapshots
-// empty boolean if snapshot empty
-// metadata   source etc
-// query   ref to query fired
-// size number of documents in QuerySnapshot
-
-/*QuerySnapshot methods
-docChanges()   array of changes since last snapshot
-forEach() iterates over entire array of snapshots
-isEqual()    is equal to another snapshot
-*/
-
-/* DocumentSnapshot props
-id   of document
-exists   is in database?
-metadata
-ref  ref to documents location in database*/
-
-/*DocumentSnapshot methods
-data()   gets all the fields of th object
-get()    allows access to an objects particular property eg/"firstName"
-isEqual()  useful for comparisons
-*/

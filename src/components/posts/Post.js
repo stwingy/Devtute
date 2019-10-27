@@ -8,12 +8,18 @@ import styled from 'styled-components'
 const P = styled.p`
 padding:0rem 5rem;
 text-align:left;
-
+width:100%;
 line-height:1.4rem;
 font-size:1.2rem;
 `
 const Div = styled.div`
+background-color:#ffb3b3;
 
+width:95%;
+margin:0 auto;
+margin-bottom:3em;
+/* border-bottom:50px solid #ff6666;
+box-shadow: inset 0 -1px 0 0 #ff6666; */
 `
 const belongsToCurrentUser = (currentUser, postAuthor) => {
     // console.log("CU ", currentUser, "PO ", postAuthor)
@@ -24,7 +30,7 @@ const belongsToCurrentUser = (currentUser, postAuthor) => {
 }
 function Post(props) {
 
-    const { title, body, createdAt, id, stars, user, postRef } = props
+    const { title, body, createdAt, id, stars, user, postRef, select } = props
     const currentUser = useUser()
     console.log(props.match)
 
@@ -39,17 +45,24 @@ function Post(props) {
     }
     return (
         <Div>
-            {props.match ? <h2>{title}</h2> : <Link to={`posts/${id}`}><h2>{title}</h2></Link>}
+            <div >
+                <p style={{ position: "absolute", left: "5%" }}>{select}</p>
+                {props.match ? <h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2> : <Link to={`posts/${id}`}><h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2></Link>}
+            </div>
+
             {title && <> <P>{body}</P>
 
 
                 {belongsToCurrentUser(currentUser, user) === false && <Button onClick={() => starsF()}>{`${stars} Likes`}</Button>}
-                <div style={{ display: 'flex', justifyContent: "space-evenly", width: '90%', margin: '2rem auto' }}>
+                <div style={{ display: 'flex', justifyContent: "space-evenly", width: '90%', margin: '2.5rem auto' }}>
                     <p>{moment(createdAt).calendar()}</p>
                     {user && <p>by {user.displayName}</p>}
                 </div>
-                {belongsToCurrentUser(currentUser, user) && !props.match && <Button onClick={() => removePost()}>X</Button>}
-                {!props.match && belongsToCurrentUser(currentUser, user) && <Button onClick={() => editTitle("BAAAAA")}>EDIT</Button>}</>}
+                <div style={{ backgroundColor: " #ff6666", margin: "0 auto" }}>
+                    {belongsToCurrentUser(currentUser, user) && !props.match && <Button style={{ marginRight: "5px" }} onClick={() => removePost()}>Delete</Button>}
+                    {!props.match && belongsToCurrentUser(currentUser, user) && <Button onClick={() => editTitle("BAAAAA")}>EDIT</Button>}
+                </div>
+            </>}
 
         </Div>
     )
