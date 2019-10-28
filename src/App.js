@@ -3,6 +3,7 @@ import Posts from './components/posts/Posts'
 import UserProfile from './components/users/UserProfile'
 import Authentication from './components/users/Authentication'
 import PostPage from './components/posts/PostPage'
+import Nav from './components/posts/Nav'
 import './App.css';
 import Footer from './components/Footer'
 import styled, { createGlobalStyle } from 'styled-components';
@@ -44,13 +45,18 @@ margin-top:2rem;
 
 `
 function App() {
+  const [select, setSelect] = React.useState("All")
+  function choose(op) {
+    setSelect(op)
+  }
   return (
     <div className="App">
 
       <Link to='/'><H1>Title</H1></Link>
+      <Nav setSelect={choose} />
       <Authentication />
       <Switch>
-        <Route exact path='/' component={Posts} />
+        <Route exact path='/' render={(routeProps) => (<Posts {...routeProps} sel={select} />)} />/>
         <Route exact path='/profile' component={UserProfile} />
         <Route exact path='/posts/:id' component={PostPage} />
       </Switch>

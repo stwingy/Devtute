@@ -110,12 +110,12 @@ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
 background-color:white;
     }
 `
-function Posts() {
+function Posts({ sel }) {
 
     const posts = usePosts()
     const user = useUser()
     const { uid, photoURL, email, displayName } = user || {}
-    const [sections, setSections] = React.useState()
+    const [sections, setSections] = React.useState(sel)
     const [sectLoading, setSectLoading] = React.useState(false)
     const [title, setTitle] = React.useState("")
     const [body, setBody] = React.useState("")
@@ -133,21 +133,20 @@ function Posts() {
     const addPosts = async post => {
         firestore.collection('posts').add(post)
     }
-    const filterPosts = (val) => {
-        const filt = posts.filter(p => p.select === val)
-        setSections(filt)
 
-    }
     return (
         <div>
-            <Button onClick={() => filterPosts("Javascript")}>click</Button>
+            <Button onClick={() => setSelect("Javascript")}>click</Button>
 
 
-            {
+            {sel === "All" ? posts.map(p =>
+                <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
+            ) :
 
-                (posts.map(p =>
-                    <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
-                ))
+                (posts.filter(pos => pos.select === sel)
+                    .map(p =>
+                        <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
+                    ))
             }
             <Form id="postForm" onSubmit={handleSubmit}>
                 <Input placeholder="Please Enter A Title" value={title} type="text" onChange={e => setTitle(e.target.value)} />
@@ -155,7 +154,8 @@ function Posts() {
                 <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto' }}>
 
                     <Select onChange={handleSelect}>
-                        <option value="All">All</option>
+                        <option value="">Select From Below</option>
+                        <option value="General">General</option>
                         <option value="React">React</option>
                         <option value="Styled Components">Styled Components</option>
                         <option value="CSS">CSS</option>
