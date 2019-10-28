@@ -13,7 +13,7 @@ function CurrentUser(user) {
     return (
         <div style={{ width: "95%", display: "flex", justifyContent: "space-between", margin: "0 auto" }}>
             <div>
-                <Link to="profile"><p>{user.displayName}</p></Link>
+                <Link to="profile"><p style={{ backgroundColor: "#FF66B3" }}>{user.displayName}</p></Link>
 
 
 

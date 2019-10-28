@@ -136,7 +136,7 @@ function Posts({ sel }) {
 
     return (
         <div>
-            <Button onClick={() => setSelect("Javascript")}>click</Button>
+
 
 
             {sel === "All" ? posts.map(p =>
