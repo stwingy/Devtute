@@ -123,12 +123,15 @@ function Posts({ sel }) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        addPosts({ title: title, select: select, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
+        let myVar = "General"
+        if (select) myVar = select
+        addPosts({ title: title, select: myVar, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
         setTitle("")
         setBody("")
     }
     function handleSelect(e) {
         setSelect(e.target.value)
+
     }
     const addPosts = async post => {
         firestore.collection('posts').add(post)

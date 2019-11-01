@@ -56,6 +56,7 @@ function App() {
       <Nav setSelect={choose} />
       <Authentication />
       <Switch>
+
         <Route exact path='/' render={(routeProps) => (<Posts {...routeProps} sel={select} />)} />/>
         <Route exact path='/profile' component={UserProfile} />
         <Route exact path='/posts/:id' component={PostPage} />
