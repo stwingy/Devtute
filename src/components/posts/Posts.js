@@ -5,6 +5,12 @@ import { useUser } from '../../providers/UserProvider'
 import { firestore } from '../../firebase'
 import { Button, StyledInput } from '../../style/styles'
 import styled from 'styled-components'
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
+
+import draftToHtml from 'draftjs-to-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './wysiwyg.css'
 
 const Select = styled.select`
 display: block;
@@ -126,13 +132,13 @@ function Posts({ sel }) {
     const posts = usePosts()
     const user = useUser()
     const { uid, photoURL, email, displayName } = user || {}
-    const [sections, setSections] = React.useState(sel)
-    const [sectLoading, setSectLoading] = React.useState(false)
+
+    const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
     const [title, setTitle] = React.useState("")
     const [body, setBody] = React.useState("")
     const [select, setSelect] = React.useState("All")
     const [posL, setPosL] = React.useState('-2000px')
-    console.log(posts)
+    //console.log(posts)
     function handleSubmit(e) {
         e.preventDefault()
         setPosL("-2000px")
@@ -150,12 +156,28 @@ function Posts({ sel }) {
         firestore.collection('posts').add(post)
     }
 
+    const onEditorStateChange = (es) => {
+
+        let contentState = es.getCurrentContent()
+        let rawState = convertToRaw(contentState)
+        let html = draftToHtml(rawState)
+        console.log(html)
+        setBody(html)
+        setEditorState(es)
+    }
+
     return (
         <div>
 
             {user && <Form posL={posL} id="postForm" onSubmit={handleSubmit}>
                 <Input placeholder="Please Enter A Title" value={title} type="text" onChange={e => setTitle(e.target.value)} />
-                <Textarea placeholder="Please Enter Some More Information" value={body} type="text" onChange={e => setBody(e.target.value)} />
+
+                <Editor
+                    editorState={editorState}
+                    wrapperClassName="myEditor-wrapper"
+                    editorClassName="myEditor-editor"
+                    onEditorStateChange={onEditorStateChange}
+                />
                 <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto' }}>
 
                     <Select onChange={handleSelect}>

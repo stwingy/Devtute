@@ -2,6 +2,13 @@ import React from 'react'
 import { Button, StyledInput } from '../../style/styles'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw, convertFromRaw, EditorState, ContentState } from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './wysiwyg.css'
 const But = styled(Button)`
 color:#000;
 
@@ -77,11 +84,39 @@ const Textarea = styled.textarea`
 function Edit({ title, body, editTitle }) {
     const [newTitle, setNewTitle] = React.useState(title)
     const [newBody, setNewBody] = React.useState(body)
-    console.log('edit ', title)
+    const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+    React.useEffect(() => {
+        const contentBlock = htmlToDraft(body);
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            const editorState = EditorState.createWithContent(contentState);
+            setEditorState(editorState)
+        }
+    }, [body])
+
+
+
+    const onEditorStateChange = (es) => {
+
+
+        setEditorState(es)
+
+
+        let contentState = es.getCurrentContent()
+        let rawState = convertToRaw(contentState)
+        let html = draftToHtml(rawState)
+
+        setNewBody(html)
+    }
     return (
         <div style={{ zIndex: 100 }}>
             <Input value={newTitle} type="text" onChange={e => setNewTitle(e.target.value)} />
-            <Textarea value={newBody} type="text" onChange={e => setNewBody(e.target.value)} />
+            <Editor
+                editorState={editorState}
+                wrapperClassName="myEditor-wrapper"
+                editorClassName="myEditor-editor"
+                onEditorStateChange={onEditorStateChange}
+            />
             <Link to="/"> <But onClick={() => editTitle(newTitle, newBody)} >EDIT</But></Link>
         </div>
     )

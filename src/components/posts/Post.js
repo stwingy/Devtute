@@ -79,7 +79,7 @@ function Post(props) {
                 {props.match ? <h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2> : <Link to={`posts/${id}`}><h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2></Link>}
             </div>
 
-            {title && props.match && <> <P>{body}</P>
+            {title && props.match && <> <div dangerouslySetInnerHTML={{ __html: body }}></div>
 
 
 
