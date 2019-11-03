@@ -28,14 +28,15 @@ const GlobalStyle = createGlobalStyle`
     margin-top:2rem;
     border-top:1px solid rgba(0, 0, 0, 0.4);
   }
-  
+ 
   a{
     text-decoration:none;
     color:black;
     letter-spacing:.12rem;
     text-transform:uppercase;
-    :hover{
+    :hover {
      letter-spacing:.15rem;
+  
     }
   }
 `;

@@ -40,6 +40,7 @@ function Comments(props) {
     // e.preventDefault()
     if (com.content !== "") {
       props.onCreate(com, user, { createdAt: Date.now() })
+      setCom({ ...com, content: "" })
     }
 
 
@@ -47,16 +48,16 @@ function Comments(props) {
   return (
     <div style={{ marginBottom: "6rem" }}>
 
-      {user && props.comments.map(c => <div key={c.id} style={{ margin: "10px auto", width: "95%", display: "flex", flexDirection: "column" }}>
+      {props.comments.map(c => <div key={c.id} style={{ margin: "10px auto", width: "95%", display: "flex", flexDirection: "column" }}>
         <div style={{ marginBottom: "1em", marginTop: "1.5em", padding: "1em .5em", backgroundColor: "#ffb3b3", textAlign: "left", wordWrap: 'break-word' }}>{c.content}</div>
         <div style={{ wordWrap: 'no-wrap', flexBasis: "25%" }}><span style={{ fontWeight: "600" }}>{c.user.displayName}</span></div>
         <div style={{ flexBasis: "25%", borderBottom: "1px solid #ff8080", fontSize: ".7em", fontWeight: "100" }}>  {moment(c.createdAt).calendar()}</div>
       </div>)}
 
-      {<form onSubmit={makeComment}>
+      {user ? <form onSubmit={makeComment}>
         <Input placeholder="Enter a Comment" type="text" value={com.content} onChange={e => setCom({ content: e.target.value })} />
         <Button type="submit" onClick={makeComment}>Submit</Button>
-      </form>}
+      </form> : <h4>Log in to Comment</h4>}
     </div>
   )
 }

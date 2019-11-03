@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../style/styles'
 import styled from 'styled-components'
 
+
 const SinOutButton = styled(Button)`
 width:150px;
 align-self:center;
@@ -19,11 +20,13 @@ function CurrentUser(user) {
 
                 <p>{user.email}</p>
                 <p>Joined {user.createdAt}</p>
+                <div style={{ width: "200px", height: "100px" }} >
+                    <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={user.photoURL} alt=" you" />
+                </div>
 
-                <img src={user.photoURL} alt="you" />
             </div>
 
-            <SinOutButton onClick={signOut}>Signout</SinOutButton>
+            <Link to="/"> <SinOutButton onClick={signOut}>Signout</SinOutButton></Link>
         </div>
     )
 }

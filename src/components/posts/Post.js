@@ -6,12 +6,33 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../style/styles'
 import styled from 'styled-components'
 
+const But = styled(Button)`
+color:#000;
+
+
+::before {
+ 
+    border-top-color: rgba(0,0,0,0.5);
+    border-bottom-color: rgba(0,0,0,0.5);
+   
+}
+
+::after {
+   
+    background-color: rgba(0,0,0,0.1);
+}
+
+
+`
+
 const P = styled.p`
-padding:0rem 2rem;
+padding:0rem 1rem;
 text-align:left;
-width:95%;
+width:90%;
 line-height:1.4rem;
 font-size:1.2rem;
+background-color:#ffcc99;
+margin:5px auto;
 `
 const Div = styled.div`
 background-color:#ffb3b3;
@@ -34,7 +55,7 @@ function Post(props) {
     const { title, body, createdAt, id, stars, user, postRef, select } = props
     const [showEdit, setShowEdit] = React.useState(false)
     const currentUser = useUser()
-    console.log(props.match)
+    // props.coms.id.forEach(d => console.log(d))
 
 
     const starsF = () => { postRef.update({ stars: stars + 1 }); }
@@ -58,17 +79,18 @@ function Post(props) {
                 {props.match ? <h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2> : <Link to={`posts/${id}`}><h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2></Link>}
             </div>
 
-            {title && <> <P>{body}</P>
+            {title && props.match && <> <P>{body}</P>
 
 
-                {belongsToCurrentUser(currentUser, user) === false && <Button onClick={() => starsF()}>{`${stars} Likes`}</Button>}
+
                 <div style={{ display: 'flex', justifyContent: "space-evenly", width: '90%', margin: '2.5rem auto' }}>
                     <p>{moment(createdAt).calendar()}</p>
                     {user && <p>by {user.displayName}</p>}
+                    {belongsToCurrentUser(currentUser, user) === false ? <But onClick={() => starsF()}>{`${stars} Likes`}</But> : <p>{`${stars} Likes`}</p>}
                 </div>
                 <div style={{ backgroundColor: " #ff6666", margin: "0 auto" }}>
-                    {belongsToCurrentUser(currentUser, user) && props.match && <Link to="/"><Button style={{ marginRight: "5px" }} onClick={() => removePost()}>Delete</Button></Link>}
-                    {props.match && belongsToCurrentUser(currentUser, user) && <Button onClick={() => handleEdit()}>EDIT</Button>}
+                    {belongsToCurrentUser(currentUser, user) && props.match && <Link to="/"><Button style={{ marginRight: "5px", marginTop: "10px" }} onClick={() => removePost()}>Delete</Button></Link>}
+                    {belongsToCurrentUser(currentUser, user) && <Button style={{ marginTop: "10px" }} onClick={() => handleEdit()}>EDIT</Button>}
                 </div>
             </>}
 

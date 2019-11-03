@@ -37,9 +37,20 @@ const ButtonF = styled(Button)`
 margin:.5em auto;`
 
 const Form = styled.form`
+padding:20px;
+border-radius:10px;
+background-color: #ff4d4d;
 display:flex;
 flex-direction:column;
+z-index:1000;
 margin-bottom:8rem;
+position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+top: ${props => props.posT || "50%"};
+left: ${props => props.posL || "-1999px"};
+transition:left .5s ease;
 `
 const Textarea = styled.textarea`
    margin: .5em auto;
@@ -120,9 +131,11 @@ function Posts({ sel }) {
     const [title, setTitle] = React.useState("")
     const [body, setBody] = React.useState("")
     const [select, setSelect] = React.useState("All")
-
+    const [posL, setPosL] = React.useState('-2000px')
+    console.log(posts)
     function handleSubmit(e) {
         e.preventDefault()
+        setPosL("-2000px")
         let myVar = "General"
         if (select) myVar = select
         addPosts({ title: title, select: myVar, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
@@ -140,18 +153,7 @@ function Posts({ sel }) {
     return (
         <div>
 
-
-
-            {sel === "All" ? posts.map(p =>
-                <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
-            ) :
-
-                (posts.filter(pos => pos.select === sel)
-                    .map(p =>
-                        <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} />
-                    ))
-            }
-            <Form id="postForm" onSubmit={handleSubmit}>
+            {user && <Form posL={posL} id="postForm" onSubmit={handleSubmit}>
                 <Input placeholder="Please Enter A Title" value={title} type="text" onChange={e => setTitle(e.target.value)} />
                 <Textarea placeholder="Please Enter Some More Information" value={body} type="text" onChange={e => setBody(e.target.value)} />
                 <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto' }}>
@@ -167,7 +169,18 @@ function Posts({ sel }) {
                     <ButtonF type="submit" onClick={handleSubmit} >PRESS<button style={{ left: "0", width: "100%", height: '100%', position: "absolute", opacity: 0 }}></button></ButtonF>
                 </div>
 
-            </Form>
+            </Form>}
+            <Button style={{ marginTop: "10px" }} onClick={() => setPosL("50%")}>{user ? 'Make A Post' : 'Log In To Post'}</Button>
+            {sel === "All" ? posts.map(p =>
+                <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} coms={firestore.collection(`posts/${p.id}/comments`)} />
+            ) :
+
+                (posts.filter(pos => pos.select === sel)
+                    .map(p =>
+                        <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} coms={firestore.collection(`posts/${p.id}/comments`)} />
+                    ))
+            }
+
         </div >
     )
 }
