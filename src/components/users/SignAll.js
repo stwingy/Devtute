@@ -6,6 +6,9 @@ const Div = styled.div`
 position:absolute;
 left:${props => props.left || "2.5%"};
 top:10px;
+@media (max-width: 800px) {
+			top:10rem;
+		}
 `
 function SignAll(props) {
     const [signInActive, setSignInActive] = React.useState(true)

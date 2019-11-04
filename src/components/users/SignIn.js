@@ -8,12 +8,15 @@ flex-direction:column;
 `
 const StyledInput = styled.input`
   border: 1px solid #000;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   margin: 5px;
   width: 150px;
   box-sizing: border-box;
-  background: ${prop => prop.correct ? 'white' : 'red'};
+  background-color: ${prop => prop.correct ? 'white' : '#ff4d4d'};
+  :focus{
+    background-color:#fff;   
+  }
 `;
 function SignIn({ changeSignIn }) {
     const [email, setEmail] = React.useState("")
@@ -31,8 +34,8 @@ function SignIn({ changeSignIn }) {
 
             {showForm && <form >
                 <Div>
-                    <StyledInput type="email" onChange={(e) => setEmail(e.target.value)} />
-                    <StyledInput type="password" onChange={(e) => setPassword(e.target.value)} />
+                    <StyledInput placeholder="Email Address" type="email" onChange={(e) => setEmail(e.target.value)} />
+                    <StyledInput placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
                     <Button onClick={() => auth.signInWithEmailAndPassword(email, password)}>
                         signin with setEmail
 

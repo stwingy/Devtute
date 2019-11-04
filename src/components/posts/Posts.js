@@ -178,7 +178,7 @@ function Posts({ sel }) {
                     editorClassName="myEditor-editor"
                     onEditorStateChange={onEditorStateChange}
                 />
-                <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto' }}>
+                <div style={{ display: "flex", justifyItems: 'center', margin: '0 auto', marginTop: '5px' }}>
 
                     <Select onChange={handleSelect}>
                         <option value="">Select From Below</option>

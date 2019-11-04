@@ -8,12 +8,15 @@ flex-direction:column;
 `
 const StyledInput = styled.input`
   border: 1px solid #000;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   margin: 5px;
   width: 150px;
   box-sizing: border-box;
-  background: ${prop => prop.correct ? 'white' : 'red'};
+  background-color: ${prop => prop.correct ? 'white' : '#ff4d4d'};
+  :focus{
+    background-color:#fff;   
+  }
 `;
 function SignUp({ changeSignUp }) {
     const [formVisible, setFormVisible] = React.useState(false)
@@ -34,9 +37,9 @@ function SignUp({ changeSignUp }) {
         return (
             <form onSubmit={handleSubmit}>
                 <Div>
-                    <StyledInput type="text" onChange={(e) => setDisplayName(e.target.value)} />
-                    <StyledInput type="email" onChange={(e) => setEmail(e.target.value)} />
-                    <StyledInput type="password" onChange={(e) => setPassword(e.target.value)} />
+                    <StyledInput placeholder=" Display Name" type="text" onChange={(e) => setDisplayName(e.target.value)} />
+                    <StyledInput placeholder=" Email Address" type="email" onChange={(e) => setEmail(e.target.value)} />
+                    <StyledInput placeholder=" Password" type="password" onChange={(e) => setPassword(e.target.value)} />
                     <Button type="submit" onClick={handleSubmit}>Submit</Button>
                 </Div>
             </form>

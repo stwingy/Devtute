@@ -76,7 +76,7 @@ function Post(props) {
             {showEdit && <Edit title={title} body={body} editTitle={editTitle} />}
             <div style={{ position: 'relative' }}>
                 <p style={{ position: "absolute", left: "0", top: "-2rem", backgroundColor: "#FFB366", padding: '.5em 1em', borderRadius: "10px" }}>{select}</p>
-                {props.match ? <h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2> : <Link to={`posts/${id}`}><h2 style={{ backgroundColor: "#FFB366" }}>{title}</h2></Link>}
+                {props.match ? <h4 style={{ backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4> : <Link to={`posts/${id}`}><h4 style={{ backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4></Link>}
             </div>
 
             {title && props.match && <> <div dangerouslySetInnerHTML={{ __html: body }}></div>

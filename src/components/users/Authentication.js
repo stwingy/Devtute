@@ -8,6 +8,9 @@ position:absolute;
 top:10px;
 left:0;
 width:100%;
+@media (max-width: 800px) {
+			top:10rem;
+		}
 `
 function Authentication({ loading }) {
     const user = useUser()

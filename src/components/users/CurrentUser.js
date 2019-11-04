@@ -14,16 +14,16 @@ function CurrentUser(user) {
     return (
         <div style={{ width: "95%", display: "flex", justifyContent: "space-between", margin: "0 auto" }}>
             <div>
-                <Link to="profile"><p style={{ backgroundColor: "#FF66B3" }}>{user.displayName}</p></Link>
+                <Link to="profile"><p style={{ backgroundColor: "#FF66B3", boxShadow: "3px 3px 3px #000" }}>{user.displayName}</p></Link>
 
 
 
-                <p>{user.email}</p>
-                <p>Joined {user.createdAt}</p>
+                {/* <p>{user.email}</p> */}
+
                 <div style={{ width: "200px", height: "100px" }} >
                     <img style={{ maxHeight: "100%", maxWidth: "100%" }} src={user.photoURL} alt=" you" />
                 </div>
-
+                <p style={{ fontSize: ".7em" }}>Joined {user.createdAt}</p>
             </div>
 
             <Link to="/"> <SinOutButton onClick={signOut}>Signout</SinOutButton></Link>

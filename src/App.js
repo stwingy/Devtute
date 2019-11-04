@@ -5,6 +5,7 @@ import Authentication from './components/users/Authentication'
 import PostPage from './components/posts/PostPage'
 import Nav from './components/posts/Nav'
 import './App.css';
+import Title from './components/title/Title'
 import Footer from './components/Footer'
 import styled, { createGlobalStyle } from 'styled-components';
 import { Route, Link, Switch } from 'react-router-dom'
@@ -53,7 +54,7 @@ function App() {
   return (
     <div className="App">
 
-      <Link to='/'><H1>Title</H1></Link>
+      <Title />
       <Nav setSelect={choose} />
       <Authentication />
       <Switch>
