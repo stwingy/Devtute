@@ -6,10 +6,16 @@ const Div = styled.div`
 display:flex;
 flex-direction:column;
 `
+const But = styled(Button)`
+line-height: 30px;
+    height: 30px;
+  margin:5px auto;
+    width: 100px;
+`
 const StyledInput = styled.input`
   border: 1px solid #000;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   margin: 5px;
   width: 150px;
   box-sizing: border-box;
@@ -40,7 +46,7 @@ function SignUp({ changeSignUp }) {
                     <StyledInput placeholder=" Display Name" type="text" onChange={(e) => setDisplayName(e.target.value)} />
                     <StyledInput placeholder=" Email Address" type="email" onChange={(e) => setEmail(e.target.value)} />
                     <StyledInput placeholder=" Password" type="password" onChange={(e) => setPassword(e.target.value)} />
-                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                    <But type="submit" onClick={handleSubmit}>Submit</But>
                 </Div>
             </form>
         )

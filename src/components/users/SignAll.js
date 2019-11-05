@@ -2,18 +2,19 @@ import React from 'react'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import styled from 'styled-components'
+import { useMover } from '../../providers/MoveLoginProvider'
 const Div = styled.div`
 position:absolute;
-left:${props => props.left || "2.5%"};
-top:10px;
-@media (max-width: 800px) {
-			top:10rem;
-		}
-`
+transform: translateX(-50%);
+left:${props => props.left};
+top:11rem; 
+transition:left .5s ease;`
+
+
 function SignAll(props) {
     const [signInActive, setSignInActive] = React.useState(true)
     const [signUpActive, setSignUpActive] = React.useState(true)
-
+    const { move } = useMover()
     function changeSignIn(val) {
         setSignUpActive(val)
     }
@@ -21,7 +22,7 @@ function SignAll(props) {
         setSignInActive(val)
     }
     return (
-        <Div left={props.left}>
+        <Div left={move ? "50%" : "-1000px"}>
             {signInActive && <SignIn changeSignIn={changeSignIn} />}
             {signUpActive && <SignUp changeSignUp={changeSignUp} />}
         </Div>

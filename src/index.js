@@ -5,13 +5,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import PostProvider from './providers/PostProvider'
 import UserProvider from './providers/UserProvider'
+import { MoveLoginProvider } from './providers/MoveLoginProvider'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 
 ReactDOM.render(
     <Router>
         <UserProvider>
-            <PostProvider><App /></PostProvider>
+            <PostProvider><MoveLoginProvider><App /></MoveLoginProvider></PostProvider>
         </UserProvider>
     </Router>
     , document.getElementById('root'));

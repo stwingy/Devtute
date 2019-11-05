@@ -2,6 +2,7 @@ import React from 'react'
 import Post from './Post'
 import { usePosts } from '../../providers/PostProvider'
 import { useUser } from '../../providers/UserProvider'
+import { useMover } from '../../providers/MoveLoginProvider'
 import { firestore } from '../../firebase'
 import { Button, StyledInput } from '../../style/styles'
 import styled from 'styled-components'
@@ -131,6 +132,8 @@ function Posts({ sel }) {
 
     const posts = usePosts()
     const user = useUser()
+    const { setMove } = useMover()
+
     const { uid, photoURL, email, displayName } = user || {}
 
     const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
@@ -165,7 +168,13 @@ function Posts({ sel }) {
         setBody(html)
         setEditorState(es)
     }
-
+    function moveLogin() {
+        setMove(true)
+    }
+    function movePosts() {
+        setMove(false)
+        setPosL("50%")
+    }
     return (
         <div>
 
@@ -192,7 +201,8 @@ function Posts({ sel }) {
                 </div>
 
             </Form>}
-            <Button style={{ marginTop: "10px" }} onClick={() => setPosL("50%")}>{user ? 'Make A Post' : 'Log In To Post'}</Button>
+            {user ? <Button style={{ marginTop: "10px" }} onClick={() => movePosts()}> Make A Post </Button>
+                : <Button style={{ marginTop: "10px" }} onClick={() => moveLogin()}>Log In To Post</Button>}
             {sel === "All" ? posts.map(p =>
                 <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} coms={firestore.collection(`posts/${p.id}/comments`)} />
             ) :

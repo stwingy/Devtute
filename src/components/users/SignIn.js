@@ -18,6 +18,12 @@ const StyledInput = styled.input`
     background-color:#fff;   
   }
 `;
+const But = styled(Button)`
+line-height: 30px;
+    height: 30px;
+  margin:10px auto;
+    width: 160px;
+`
 function SignIn({ changeSignIn }) {
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
@@ -36,10 +42,10 @@ function SignIn({ changeSignIn }) {
                 <Div>
                     <StyledInput placeholder="Email Address" type="email" onChange={(e) => setEmail(e.target.value)} />
                     <StyledInput placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
-                    <Button onClick={() => auth.signInWithEmailAndPassword(email, password)}>
+                    <But onClick={() => auth.signInWithEmailAndPassword(email, password)}>
                         signin with setEmail
 
-</Button></Div>
+</But></Div>
             </form>}
 
 
