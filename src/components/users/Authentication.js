@@ -9,7 +9,7 @@ top:10px;
 left:0;
 width:100%;
 @media (max-width: 800px) {
-			top:10rem;
+    top: ${props => props.top};
 		}
 `
 function Authentication({ loading }) {
@@ -19,7 +19,7 @@ function Authentication({ loading }) {
 
 
     return (
-        <Div>
+        <Div top={!user ? '10px' : '10rem'}>
             {user ? <CurrentUser {...user} /> : <SignAll />}
         </Div>
     )

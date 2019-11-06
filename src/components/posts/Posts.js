@@ -132,7 +132,7 @@ function Posts({ sel }) {
 
     const posts = usePosts()
     const user = useUser()
-    const { setMove } = useMover()
+    const { setMove, move } = useMover()
 
     const { uid, photoURL, email, displayName } = user || {}
 
@@ -175,6 +175,7 @@ function Posts({ sel }) {
         setMove(false)
         setPosL("50%")
     }
+    console.log("move", move)
     return (
         <div>
 
@@ -202,7 +203,7 @@ function Posts({ sel }) {
 
             </Form>}
             {user ? <Button style={{ marginTop: "10px" }} onClick={() => movePosts()}> Make A Post </Button>
-                : <Button style={{ marginTop: "10px" }} onClick={() => moveLogin()}>Log In To Post</Button>}
+                : <Button style={{ marginTop: "10px" }} onClick={() => moveLogin()}>{move ? "Log In Above" : "Login To Post"}</Button>}
             {sel === "All" ? posts.map(p =>
                 <Post key={p.id} id={p.id} title={p.title} body={p.body} select={p.select} createdAt={p.createdAt} stars={p.stars} {...p} postRef={firestore.doc(`posts/${p.id}`)} coms={firestore.collection(`posts/${p.id}/comments`)} />
             ) :

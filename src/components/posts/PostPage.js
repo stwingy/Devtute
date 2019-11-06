@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Post from './Post'
 import { firestore } from '../../firebase'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { useUser } from '../../providers/UserProvider'
+import { useMover } from '../../providers/MoveLoginProvider'
 import moment from 'moment'
 import { Button, StyledInput } from '../../style/styles'
 import styled from 'styled-components'
@@ -35,8 +36,9 @@ const collectIdsandDocs = doc => {
 function Comments(props) {
   const [com, setCom] = React.useState({ content: "" })
   const user = useUser()
+  const { setMove } = useMover()
+  function MakeComment(e) {
 
-  function makeComment(e) {
     // e.preventDefault()
     if (com.content !== "") {
       props.onCreate(com, user, { createdAt: Date.now() })
@@ -44,6 +46,9 @@ function Comments(props) {
     }
 
 
+  }
+  function moveLogin() {
+    setMove(true)
   }
   return (
     <div style={{ marginBottom: "6rem" }}>
@@ -54,10 +59,10 @@ function Comments(props) {
         <div style={{ flexBasis: "25%", borderBottom: "1px solid #ff8080", fontSize: ".7em", fontWeight: "100" }}>  {moment(c.createdAt).calendar()}</div>
       </div>)}
 
-      {user ? <form onSubmit={makeComment}>
+      {user ? <form onSubmit={MakeComment}>
         <Input placeholder="Enter a Comment" type="text" value={com.content} onChange={e => setCom({ content: e.target.value })} />
-        <Button type="submit" onClick={makeComment}>Submit</Button>
-      </form> : <h4>Log in to Comment</h4>}
+        <Button type="submit" onClick={MakeComment}>Submit</Button>
+      </form> : <Link to="/"><Button onClick={moveLogin}>Log in to Comment</Button></Link>}
     </div>
   )
 }

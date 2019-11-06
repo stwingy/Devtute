@@ -50,7 +50,7 @@ function UserProfile() {
 	};
 
 	return (
-		<section className="UserProfile">
+		<section className="UserProfile" style={{ marginTop: '2rem' }}>
 			<form onSubmit={handleSubmit} className="UpdateUser">
 				<StyledInput
 					type="text"
