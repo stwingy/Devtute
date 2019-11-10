@@ -8,7 +8,14 @@ position:absolute;
 transform: translateX(-50%);
 left:${props => props.left};
 top:11rem; 
-transition:left .5s ease;`
+transition:left .5s ease;
+@media (max-width: 800px) {
+  
+  top:2rem;
+
+}
+`
+
 
 
 function SignAll(props) {

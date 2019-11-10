@@ -10,6 +10,26 @@
     text-shadow: 0 0 3vw #2356ff;
     animation: neon-blue 2s linear infinite;
     margin-bottom: 20px;
+   
+  }
+  .neon-blue2 {
+    font-family: neon;
+    color: #80FFFF;
+    font-size: 20px;
+    text-shadow: 0 0 3vw #2356ff;
+    animation: neon-blue 2s linear infinite;
+    margin-bottom:7em;
+    
+  }
+  @media (max-width: 600px) {
+    .neon-blue{
+      font-size: 40px;
+    
+    }
+    .neon-blue2{
+      font-size: 16px;
+    }
+    
   }
 
   /* @keyframes neon-blue {

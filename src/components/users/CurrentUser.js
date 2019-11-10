@@ -14,7 +14,7 @@ function CurrentUser(user) {
     return (
         <div style={{ width: "95%", display: "flex", justifyContent: "space-between", margin: "0 auto" }}>
             <div>
-                <Link to="profile"><p style={{ backgroundColor: "#FF66B3", boxShadow: "3px 3px 3px #000" }}>{user.displayName}</p></Link>
+                <Link to="/profile"><SinOutButton style={{ marginBottom: "5px", fontSize: "10px" }}>{user.displayName}</SinOutButton></Link>
 
 
 

@@ -9,8 +9,10 @@ top:10px;
 left:0;
 width:100%;
 @media (max-width: 800px) {
-    top: ${props => props.top};
-		}
+  
+  top:8rem;
+
+}
 `
 function Authentication({ loading }) {
     const user = useUser()

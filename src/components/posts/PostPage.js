@@ -56,7 +56,7 @@ function Comments(props) {
       {props.comments.map(c => <div key={c.id} style={{ margin: "10px auto", width: "95%", display: "flex", flexDirection: "column" }}>
         <div style={{ marginBottom: "1em", marginTop: "1.5em", padding: "1em .5em", backgroundColor: "#ffb3b3", textAlign: "left", wordWrap: 'break-word' }}>{c.content}</div>
         <div style={{ wordWrap: 'no-wrap', flexBasis: "25%" }}><span style={{ fontWeight: "600" }}>{c.user.displayName}</span></div>
-        <div style={{ flexBasis: "25%", borderBottom: "1px solid #ff8080", fontSize: ".7em", fontWeight: "100" }}>  {moment(c.createdAt).calendar()}</div>
+        <div style={{ flexBasis: "25%", fontSize: ".7em", fontWeight: "100" }}>  {moment(c.createdAt).calendar()}</div>
       </div>)}
 
       {user ? <form onSubmit={MakeComment}>

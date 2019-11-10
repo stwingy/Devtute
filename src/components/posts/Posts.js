@@ -146,7 +146,7 @@ function Posts({ sel }) {
         e.preventDefault()
         setPosL("-2000px")
         let myVar = "General"
-        if (select) myVar = select
+        if (select && select !== "All") myVar = select
         addPosts({ title: title, select: myVar, body: body, createdAt: Date.now(), stars: 0, user: { uid, photoURL, email, displayName } })
         setTitle("")
         setBody("")
