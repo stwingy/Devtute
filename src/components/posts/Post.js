@@ -25,15 +25,23 @@ color:#000;
 
 `
 
-const P = styled.p`
-padding:0rem 1rem;
-text-align:left;
-width:90%;
-line-height:1.4rem;
-font-size:1.2rem;
-background-color:#ffcc99;
-margin:5px auto;
+const P = styled.span`
+
+font-size: 10px;
+color: #FFF;
+ position: absolute;
+  top: -10px;
+right: 22px;
+transform: ${props => props.trans ? 'translateX(-50%)' : 'translateX(0)'}
+                 
 `
+const Divv = styled.div`
+pre{
+    padding:5px 5px;
+    background-color:#FAFAFA;
+}
+`
+
 const Div = styled.div`
 background-color:#ffb3b3;
 
@@ -60,9 +68,10 @@ function Post(props) {
 
     const starsF = () => { postRef.update({ stars: stars + 1 }); }
     const removePost = async => {
+
         postRef.delete()
-        // props.history.push("/")
-        console.log(props)
+
+
     }
     const editTitle = (str1, str2) => {
         postRef.update({ title: str1, body: str2 })
@@ -75,11 +84,13 @@ function Post(props) {
         <Div>
             {showEdit && <Edit title={title} body={body} editTitle={editTitle} />}
             <div style={{ position: 'relative' }}>
-                <p style={{ position: "absolute", left: "0", top: "-2rem", backgroundColor: "#FFB366", padding: '0 1em', borderRadius: "10px 10px" }}>{select}</p>
-                {props.match ? <h4 style={{ paddingTop: "30px", backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4> : <Link to={`posts/${id}`}><h4 style={{ backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4></Link>}
+                <p style={{ position: "absolute", left: "0", top: "-2rem", backgroundColor: "#FFB366", padding: '0 1em', borderRadius: "10px 10px" }}>{select}
+                    <i style={{ color: "#660000", marginLeft: "4px" }} className="fas fa-heart fa-lg">
+                        <P trans={stars < 10}>{stars}</P></i></p>
+                {props.match ? <h4 style={{ textAlign: "right", paddingTop: "30px", backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4> : <Link to={`posts/${id}`}><h4 style={{ textAlign: "right", backgroundColor: "#FFB366", boxShadow: '5px 5px 5px #4d0000 ' }}>{title}</h4></Link>}
             </div>
 
-            {title && props.match && <> <div dangerouslySetInnerHTML={{ __html: body }}></div>
+            {title && props.match && <> <Divv dangerouslySetInnerHTML={{ __html: body }}></Divv>
 
 
 

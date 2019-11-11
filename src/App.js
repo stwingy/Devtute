@@ -8,7 +8,7 @@ import './App.css';
 import Title from './components/title/Title'
 import Footer from './components/Footer'
 import styled, { createGlobalStyle } from 'styled-components';
-import { Route, Link, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 
 const GlobalStyle = createGlobalStyle`
@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
   h1,h2,h3,h4{
     font-family: 'Raleway', sans-serif;
-    text-transform:uppercase;
+
   }
   h2,h3,h4{
     font-family: 'Raleway', sans-serif;
@@ -29,12 +29,14 @@ const GlobalStyle = createGlobalStyle`
     margin-top:2rem;
     border-top:1px solid rgba(0, 0, 0, 0.4);
   }
- 
+ code{
+   background-color:#fff;
+ }
   a{
     text-decoration:none;
     color:black;
     letter-spacing:.12rem;
-    text-transform:uppercase;
+    
     :hover {
      letter-spacing:.15rem;
   

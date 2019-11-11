@@ -164,7 +164,7 @@ function Posts({ sel }) {
         let contentState = es.getCurrentContent()
         let rawState = convertToRaw(contentState)
         let html = draftToHtml(rawState)
-        console.log(html)
+
         setBody(html)
         setEditorState(es)
     }
